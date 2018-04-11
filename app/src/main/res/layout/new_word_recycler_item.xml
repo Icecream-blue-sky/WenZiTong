@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--生词表recyclerView对应item布局-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="魑的解释："
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/test"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/content_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="4"
+            android:text="魑，chī，传说中指山林里能害人的怪物，如“魑魑魍魉”（指各种各样的坏人）。详细字义
+1. (形声。从鬼,离声。本义:精怪名)
+2. 传说中的山神[mountain god]
+始经魑魅之涂,卒践无人之境。——孙绰《游天台山赋》
+3. 又如:魑魅(古代传说中山神和精怪,能作祟祸人。泛指坏人)
+魑魅魍魉(本为山怪水神,引申为各式各样的坏人)
+4. 泛指鬼怪[demon]。如:魑祟(鬼怪)"
+            android:layout_weight="1"
+            android:padding="5dp"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#c4c2c4"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        />
+</LinearLayout>
