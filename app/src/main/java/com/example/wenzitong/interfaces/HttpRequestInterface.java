@@ -4,12 +4,8 @@ import com.example.wenzitong.entity.BaseResponse;
 import com.example.wenzitong.entity.LoginResponseData;
 import com.example.wenzitong.untils.MapGenerator;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /**
@@ -81,19 +77,4 @@ public interface HttpRequestInterface {
      */
     @POST(FORGETPASSWORD_URL)
     Call<BaseResponse<Object>> forgetPasswordCall(@Body MapGenerator foregetPasswordData);
-
-    /**
-     * 特征匹配(拍照界面）
-     */
-    String TEST_URL = "appuser/tpsb.do";
-    @POST(TEST_URL)
-    Call<BaseResponse<Object>> testCall();
-
-    /**
-     * 特征匹配传数组
-     */
-    String TEST_URL_1 = "";
-    @FormUrlEncoded
-    @POST("")
-    Call<BaseResponse<Object>> testCall2(@Field("keypoint") List<Float> testData);
 }
