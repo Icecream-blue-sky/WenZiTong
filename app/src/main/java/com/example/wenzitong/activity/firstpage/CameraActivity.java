@@ -1,6 +1,5 @@
 package com.example.wenzitong.activity.firstpage;
 
-
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.*;
@@ -27,7 +26,6 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,7 +35,6 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -46,10 +43,10 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wenzitong.R;
+import com.example.wenzitong.untils.ToastUtil;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
@@ -58,7 +55,9 @@ import java.io.FileOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
     private static final int CROP_IMAGE = -999;
@@ -73,7 +72,6 @@ public class CameraActivity extends AppCompatActivity {
     private CaptureRequest.Builder mPreviewBuilder;
     private int mState;
     private CameraCaptureSession mSession;
-//    private ImageView open_album;
     private Button cancel_bt;
     private ImageView take_picture_bt;
     private Handler mainHandler;
@@ -81,7 +79,6 @@ public class CameraActivity extends AppCompatActivity {
     private int pictureId;
     private final int CHOOSE_PHOTO = 2;
     private String filePath;
-//    private ImageView result_img;
     private Button send_bt;
     private boolean hasStopPreview = true;
     private Uri outputUri = null;
@@ -90,7 +87,6 @@ public class CameraActivity extends AppCompatActivity {
     private boolean isPhoto = false;//判断是否是单纯的照片
     private int keypointsObject1;
     Mat src1, src1_gray;
-    //static int ACTION_MODE = 0;
     private boolean src1Selected = false;
     static int REQUEST_READ_EXTERNAL_STORAGE = 11;
     static int REQUEST_WRITE_EXTERNAL_STORAGE = 12;
@@ -138,12 +134,8 @@ public class CameraActivity extends AppCompatActivity {
         //拍照按钮
         take_picture_bt = findViewById(R.id.take_picture);
         //取消按钮St
-        cancel_bt=findViewById(R.id.camera_cancel_bt);
-        send_bt=findViewById(R.id.camera_send_bt);
-//        //打开相册按钮
-//        open_album = (ImageView) findViewById(R.id.open_album);
-//
-//        result_img = (ImageView) findViewById(R.id.recognition_result);
+        cancel_bt = findViewById(R.id.camera_cancel_bt);
+        send_bt = findViewById(R.id.camera_send_bt);
     }
 
     /**
@@ -168,36 +160,12 @@ public class CameraActivity extends AppCompatActivity {
         /**
          * 取消按钮监听
          */
-        cancel_bt.setOnClickListener(new View.OnClickListener(){
+        cancel_bt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 finish();
             }
         });
-//        /**
-//         * 打开相册监听
-//         */
-//        open_album.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (ContextCompat.checkSelfPermission(CameraActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions(CameraActivity.this, new String[]{
-//                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-//                    }, 1);//第二个是请求码
-//                } else {
-//                    openAlbum();
-//                }
-//            }
-//        });
-//        /**
-//         * 识别结果监听
-//         */
-//        result_img.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
     }
 
     /**
@@ -208,7 +176,6 @@ public class CameraActivity extends AppCompatActivity {
         intent.setType("image/*");
         startActivityForResult(intent, CHOOSE_PHOTO);
     }
-
 
 
     public void onResume() {
@@ -260,6 +227,7 @@ public class CameraActivity extends AppCompatActivity {
                         isPhoto = true;
                         System.out.println("imgPath" + imgPath);
                     }
+                    ToastUtil.ToastShortShow("正在匹配...", this);
                     break;
                 }
             default:
@@ -272,7 +240,7 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onManagerConnected(int status) {
             // TODO Auto-generated method stub
-            switch (status){
+            switch (status) {
                 case BaseLoaderCallback.SUCCESS:
                     System.loadLibrary("nonfree");
                     System.loadLibrary("opencv_java");
@@ -287,13 +255,12 @@ public class CameraActivity extends AppCompatActivity {
         }
     };
 
-    private void FeatureSurfBruteforce(Mat src)
-    {
+    private void FeatureSurfBruteforce(Mat src) {
         FeatureDetector detector;
         MatOfKeyPoint keypoints1;
         DescriptorExtractor descriptorExtractor;
         Mat descriptors1;
-        String res="上传成功";
+        String res = "上传成功";
         keypoints1 = new MatOfKeyPoint();
         descriptors1 = new Mat();
         Log.i("APP", "before detact");
@@ -302,14 +269,28 @@ public class CameraActivity extends AppCompatActivity {
 //      descriptorMatcher = DescriptorMatcher.create(DescriptorMatcher.FLANNBASED);
 
         detector.detect(src, keypoints1);
-        Log.i("APP", keypoints1.toArray().length+" keypoints");
+        Log.i("APP", keypoints1.toArray().length + " keypoints");
         Log.i("APP", "Detect");
 
         keypointsObject1 = keypoints1.toArray().length;
 
         descriptorExtractor.compute(src, keypoints1, descriptors1);
+        for (KeyPoint keyPoint : keypoints1.toList()) {
+            System.out.println("测试结果:" + keyPoint.pt.x + "," + keyPoint.pt.y);//先输出了keypoint中的位置信息，但不是全部特征点信息
+        }
+        testInternet(keypoints1);
+        Log.i("APP", " descriptorExtractor");
+    }
 
-        Log.i("APP"," descriptorExtractor");
+    void testInternet(MatOfKeyPoint matOfKeyPoint) {
+        List<Float> postDatas = new ArrayList<>();
+        //所有的特征点数
+        int num = 2*matOfKeyPoint.toList().size();
+        float [][] datas = new float[num][2];
+        
+        for (KeyPoint keyPoint : matOfKeyPoint.toList()) {
+
+        }
     }
 
     private String handlerImgOnOldVersion(Intent data) {
@@ -429,7 +410,6 @@ public class CameraActivity extends AppCompatActivity {
     };
 
 
-
     //获取图片的byte数据格式
     public byte[] getImagBytes(Image image) {
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
@@ -453,7 +433,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     //Bitmap → byte[]
-    private byte[] getBytesFromBitmap(Bitmap bm){
+    private byte[] getBytesFromBitmap(Bitmap bm) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();

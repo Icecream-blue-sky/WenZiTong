@@ -21,7 +21,8 @@
         app:tabMode="fixed"
         app:tabIndicatorHeight="0dp"
         app:layout_scrollFlags="scroll"
-        app:tabTextColor="#000000">
+        app:tabTextColor="@color/black"
+        app:tabSelectedTextColor="@color/theme_color">
         <android.support.design.widget.TabItem
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,6 +35,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/personal_page" />
-        <!--注：TODO :TabLayout中的TabItem没有字体大小颜色等属性，需要新建一个style MyTabLayoutTextAppearance，在其中修改-->
     </android.support.design.widget.TabLayout>
 </LinearLayout>
