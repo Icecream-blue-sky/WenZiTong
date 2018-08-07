@@ -38,9 +38,7 @@ public class RetroHttpUtil {
     /**
      * 公共url
      */
-    //TODO；测试用
     private final static String BASE_URL = "http://39.106.63.214:8080/xuebei-mongodb/";
-//    private final static String BASE_URL = "http://47.94.130.110:8086/HHS6600791/";
     /**
      * 返回的json数据为空时的数据长度
      */

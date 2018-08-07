@@ -1,28 +1,20 @@
 package com.example.wenzitong.activity.main;
 
-import android.graphics.Typeface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import com.example.wenzitong.R;
 import com.example.wenzitong.adapter.FragAdapter;
-import com.example.wenzitong.entity.BaseResponse;
-import com.example.wenzitong.entity.LoginResponseData;
-import com.example.wenzitong.ui.Fragment.CollectPageFragment;
-import com.example.wenzitong.ui.Fragment.FirstPageFragment;
-import com.example.wenzitong.ui.Fragment.PersonalPageFragment;
-import com.example.wenzitong.untils.retrofitUtil.RetroHttpUtil;
-import com.example.wenzitong.untils.retrofitUtil.callback.AbstractCommonHttpCallback;
+import com.example.wenzitong.ui.CollectPageFragment;
+import com.example.wenzitong.ui.FirstPageFragment;
+import com.example.wenzitong.ui.PersonalPageFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
 
 /**
  * 主活动界面
@@ -39,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private PersonalPageFragment personalPageFragment;//个人中心页
     private List<Fragment> fragmentList;//存储fragment
     private List<String> titleList;//tabLayout标题
-    private TextView test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initPages();
     }
+
     private void hideActionBar(){
         ActionBar actionBar = getSupportActionBar();
         if(actionBar!=null){
@@ -73,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
         titleList.add("首页");
         titleList.add("收藏");
         titleList.add("个人中心");
-//        test = findViewById(R.id.test);
-//        Typeface typeface = Typeface.createFromAsset(getAssets(),"fonts/test.ttf");
-//        test.setTypeface(typeface);
 
     }
 
