@@ -21,7 +21,8 @@
         app:tabMode="fixed"
         app:tabIndicatorHeight="0dp"
         app:layout_scrollFlags="scroll"
-        app:tabTextColor="#000000">
+        app:tabTextColor="@color/black"
+        app:tabSelectedTextColor="@color/theme_color">
         <android.support.design.widget.TabItem
             android:layout_width="match_parent"
             android:layout_height="match_parent"

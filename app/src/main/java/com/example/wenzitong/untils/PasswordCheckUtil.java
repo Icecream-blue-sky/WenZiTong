@@ -40,7 +40,7 @@ public class PasswordCheckUtil {
             }
             /**
              * 检测字母出现的个数
-             */+
+             */
             sift = "[A-Za-z]";
             pattern = Pattern.compile(sift);
             matcher = pattern.matcher(password);

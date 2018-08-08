@@ -1,4 +1,4 @@
-package com.example.wenzitong.ui;
+package com.example.wenzitong.ui.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;

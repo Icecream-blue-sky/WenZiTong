@@ -1,4 +1,4 @@
-package com.example.wenzitong.ui;
+package com.example.wenzitong.ui.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -174,7 +174,6 @@ public class LoginActivity extends AppCompatActivity {
     void onClickForgetPasswordBt() {
         Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
         startActivity(intent);
-        finish();
     }
 
 

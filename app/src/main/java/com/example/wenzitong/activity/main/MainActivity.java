@@ -9,9 +9,9 @@ import android.os.Bundle;
 
 import com.example.wenzitong.R;
 import com.example.wenzitong.adapter.FragAdapter;
-import com.example.wenzitong.ui.CollectPageFragment;
-import com.example.wenzitong.ui.FirstPageFragment;
-import com.example.wenzitong.ui.PersonalPageFragment;
+import com.example.wenzitong.ui.Fragment.CollectPageFragment;
+import com.example.wenzitong.ui.Fragment.FirstPageFragment;
+import com.example.wenzitong.ui.Fragment.PersonalPageFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initPages();
     }
-
     private void hideActionBar(){
         ActionBar actionBar = getSupportActionBar();
         if(actionBar!=null){

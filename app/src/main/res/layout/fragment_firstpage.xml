@@ -6,39 +6,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <!--标题栏-->
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        android:background="@color/white"
+    <RelativeLayout
+        android:id="@+id/banner_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="5dp">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/tool_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:title="@string/first_page"/>
-    </android.support.design.widget.AppBarLayout>
+        android:layout_height="400dp"
+        android:background="@drawable/banner_background">
+        <!--android:background="@color/theme_color">-->
+        <!--<TextView-->
+        <!--android:id="@+id/banner_1_tv"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="文字通"-->
+        <!--android:textSize="40sp"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:padding="10dp"/>-->
+        <!--<TextView-->
+        <!--android:id="@+id/banner_2_tv"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="便捷"-->
+        <!--android:textSize="40sp"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:padding="10dp"/>-->
+        <!--<TextView-->
+        <!--android:id="@+id/banner_3_tv"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="你的生活"-->
+        <!--android:textSize="40sp"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:padding="10dp"/>-->
+    </RelativeLayout>
+    <!--<com.youth.banner.Banner-->
+    <!--android:id="@+id/banner"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="230dp"/>-->
     <!--中间布局-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <Button
             android:id="@+id/photo_bt"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/upload_bt"
+            android:layout_alignBottom="@+id/upload_bt"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="80dp"
+            android:background="@drawable/round_rect_white_content"
             android:text="@string/photograph"
-            android:layout_centerVertical="true"/>
+            android:textColor="@color/theme_color"
+            android:textSize="20sp"
+            />
         <Button
             android:id="@+id/upload_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="80dp"
             android:text="@string/upload"
+            android:textSize="20sp"
+            android:textColor="@color/theme_color"
             android:layout_centerVertical="true"
+            android:background="@drawable/round_rect_white_content"
             />
     </RelativeLayout>
 
