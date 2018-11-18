@@ -60,6 +60,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
@@ -95,6 +97,24 @@ public class CameraActivity extends AppCompatActivity {
     static int REQUEST_WRITE_EXTERNAL_STORAGE = 12;
     static boolean read_external_storage_granted = false;
     static boolean write_external_storage_granted = false;
+    private static final String MODEL_FILE = "file:///android_asset/tensor_model.pb"; //模型存放路径
+
+    PredictTF preTF;
+
+    //识别事件函数
+    public void click(Bitmap bitmap){
+        String res="预测结果为：";
+        float[] result= preTF.getPredict(bitmap);
+        List<Float> numList = new ArrayList<>();
+        for (int i=0;i<result.length;i++) {
+//            Log.i(TAG, res + result[i]);
+            System.out.println(res + result[i]);
+            res = res + String.valueOf(result[i]) + " ";
+            numList.add(result[i]);
+        }
+        System.out.println("匹配值为:"+ numList.indexOf(Collections.max(numList)));
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +126,7 @@ public class CameraActivity extends AppCompatActivity {
         initViews();
         initListeners();
 
+        preTF =new PredictTF(getAssets(),MODEL_FILE);//输入模型存放路径，并加载TensoFlow模型
     }
 
     /**
@@ -169,6 +190,30 @@ public class CameraActivity extends AppCompatActivity {
                 finish();
             }
         });
+//        /**
+//         * 打开相册监听
+//         */
+//        open_album.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (ContextCompat.checkSelfPermission(CameraActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                    ActivityCompat.requestPermissions(CameraActivity.this, new String[]{
+//                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                    }, 1);//第二个是请求码
+//                } else {
+//                    openAlbum();
+//                }
+//            }
+//        });
+//        /**
+//         * 识别结果监听
+//         */
+//        result_img.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
     }
 
     /**
@@ -179,6 +224,7 @@ public class CameraActivity extends AppCompatActivity {
         intent.setType("image/*");
         startActivityForResult(intent, CHOOSE_PHOTO);
     }
+
 
 
     public void onResume() {
@@ -220,7 +266,6 @@ public class CameraActivity extends AppCompatActivity {
                 }
                 break;
             case Crop.REQUEST_CROP:
-                String imgPath = null;
                 if (resultCode == RESULT_OK) {
                     if (outputUri != null) {
                         img_show.setImageURI(outputUri);
@@ -228,7 +273,7 @@ public class CameraActivity extends AppCompatActivity {
                             mSurfaceView.setVisibility(View.GONE);
                         img_show.setVisibility(View.VISIBLE);
                         isPhoto = true;
-                        System.out.println("imgPath" + imgPath);
+                        System.out.println("imgPath" + outputUri);
                     }
                     ToastUtil.ToastShortShow("正在匹配...", this);
                     break;
@@ -243,7 +288,7 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onManagerConnected(int status) {
             // TODO Auto-generated method stub
-            switch (status) {
+            switch (status){
                 case BaseLoaderCallback.SUCCESS:
                     System.loadLibrary("nonfree");
                     System.loadLibrary("opencv_java");
@@ -258,7 +303,8 @@ public class CameraActivity extends AppCompatActivity {
         }
     };
 
-    private void FeatureSurfBruteforce(Mat src) {
+    private void FeatureSurfBruteforce(Mat src)
+    {
         FeatureDetector detector;
         MatOfKeyPoint keypoints1;
         DescriptorExtractor descriptorExtractor;
@@ -404,11 +450,17 @@ public class CameraActivity extends AppCompatActivity {
                 afterImagePath = Environment.getExternalStorageDirectory() + "/DCIM/Camera/WordRecognition_picture" + "_temp_" + ".jpg";
             if (outputUri == null)
                 outputUri = Uri.fromFile(new File(afterImagePath));
+            //TODO: test tensorflow
+            Bitmap bitmap = getBitmapFromUri(Uri.fromFile(new File(Environment.getExternalStorageDirectory()+"/DCIM/Camera/teat.jpg")));
+            click(bitmap);
             Crop.of(inputUri, outputUri).asSquare().start(CameraActivity.this);
-            Mat image1 = new Mat(240, 320, CvType.CV_8UC1);
-            image1.put(0, 0, getBytesFromBitmap(getBitmapFromUri(outputUri)));
-            FeatureSurfBruteforce(image1);
-            Log.i("APP", "Before Execute");
+             //Mat image1 = new Mat(240, 320, CvType.CV_8UC1);
+            //image1.put(0, 0, getBytesFromBitmap(getBitmapFromUri(outputUri)));
+            //FeatureSurfBruteforce(image1);
+            //Log.i("APP", "Before Execute");
+
+//            Bitmap bitmap = getBitmapFromUri(outputUri);
+//            click(bitmap);
         }
     };
 
@@ -425,8 +477,7 @@ public class CameraActivity extends AppCompatActivity {
     private Bitmap getBitmapFromUri(Uri uri) {
         try {
             // 读取uri所在的图片
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-            return bitmap;
+            return MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
         } catch (Exception e) {
             Log.e("[Android]", e.getMessage());
             Log.e("[Android]", "目录为：" + uri);

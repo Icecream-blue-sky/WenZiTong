@@ -77,4 +77,32 @@ public interface HttpRequestInterface {
      */
     @POST(FORGETPASSWORD_URL)
     Call<BaseResponse<Object>> forgetPasswordCall(@Body MapGenerator foregetPasswordData);
+
+    /**
+     * 新的获取验证码接口
+     */
+    String NEW_VERIFICATION_CODE_URL  = "appSysUser/sendMail";
+    @POST(NEW_VERIFICATION_CODE_URL)
+    Call<BaseResponse<Object>>  newVerificationCodeCall(@Body MapGenerator newVerificationCodeData);
+
+    /**
+     * 新的注册接口
+     */
+    String NEW_REGISTER_URL = "appSysUser/registerSysUser.do";
+    @POST(NEW_REGISTER_URL)
+    Call<BaseResponse<Object>> newRegisterCall(@Body MapGenerator newRegisterData);
+
+    /**
+     * 新的登录接口
+     */
+    String NEW_LOGIN_URL = "login_login";
+    @POST(NEW_LOGIN_URL)
+    Call<BaseResponse<Object>> newLoginCall(@Body MapGenerator newLoginData);
+
+    /**
+     * 新的忘记密码接口
+     */
+    String NEW_FORGETPASSWORD_URL = "repwd";
+    @POST(NEW_FORGETPASSWORD_URL)
+    Call<BaseResponse<Object>> newForgetPasswordCall(@Body MapGenerator newForgetPasswordData);
 }

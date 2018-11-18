@@ -127,8 +127,30 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     @OnClick(R.id.forget_password_finish_bt)
     void onClickFinishBt() {
         if (checkInformation()) {
-            Call<BaseResponse<Object>> forgetPasswordCall = RetroHttpUtil.build().forgetPasswordCall(MapGenerator.generate().add("email", account).add("password", password).add("code",verificationCode));
-            RetroHttpUtil.sendRequest(forgetPasswordCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
+//            Call<BaseResponse<Object>> forgetPasswordCall = RetroHttpUtil.build().forgetPasswordCall(MapGenerator.generate().add("email", account).add("password", password).add("code",verificationCode));
+//            RetroHttpUtil.sendRequest(forgetPasswordCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
+//                @Override
+//                public void onSuccess(BaseResponse<Object> result) {
+//                    ToastUtil.ToastShortShow("修改成功！", ForgetPasswordActivity.this);
+//                    Intent intent = new Intent(ForgetPasswordActivity.this, LoginActivity.class);
+//                    intent.putExtra("account",account).putExtra("password","");
+//                    startActivity(intent);
+//                    finish();
+//                }
+//
+//                @Override
+//                public void onUnknownError() {
+//                    ToastUtil.ToastShortShow("修改失败，未知错误！", ForgetPasswordActivity.this);
+//                }
+//
+//                @Override
+//                public void onFinal() {
+//
+//                }
+//            });
+            //TODO:新的忘记密码接口测试
+            Call<BaseResponse<Object>> newForgetPasswordCall = RetroHttpUtil.build().newForgetPasswordCall(MapGenerator.generate().add("pmail",account).add("code",verificationCode).add("newpwd",password).add("username",account));
+            RetroHttpUtil.sendRequest(newForgetPasswordCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
                 @Override
                 public void onSuccess(BaseResponse<Object> result) {
                     ToastUtil.ToastShortShow("修改成功！", ForgetPasswordActivity.this);
@@ -201,15 +223,28 @@ public class ForgetPasswordActivity extends AppCompatActivity {
      * 命令服务器发送的验证码
      */
     private void getVertificationCode() {
-        /**
-         * TODO:这里接入后端，获取验证码
-         * TODO:卧槽，这里是异步获取信息，线程是并行的，可能response还没获取到，你就将信息返回了，这里有潜在的延迟问题
-         */
-        Call<BaseResponse<Object>> verificationCodeCall = RetroHttpUtil.build().verificationCodeCall(MapGenerator.generate().add("email", account));
-        RetroHttpUtil.sendRequest(verificationCodeCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
+//        /**
+//         * TODO:这里接入后端，获取验证码
+//         * TODO:卧槽，这里是异步获取信息，线程是并行的，可能response还没获取到，你就将信息返回了，这里有潜在的延迟问题
+//         */
+//        Call<BaseResponse<Object>> verificationCodeCall = RetroHttpUtil.build().verificationCodeCall(MapGenerator.generate().add("email", account));
+//        RetroHttpUtil.sendRequest(verificationCodeCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
+//            @Override
+//            public void onSuccess(BaseResponse<Object> result) {
+//                ToastUtil.ToastShortShow("验证码已发送！", MyApp.getGlobalContext());
+//            }
+//
+//            @Override
+//            public void onFinal() {
+//
+//            }
+//        });
+        //TODO:新接口测试
+        Call<BaseResponse<Object>> newVerificationCodeCall = RetroHttpUtil.build().newVerificationCodeCall(MapGenerator.generate().add("pmail",account));
+        RetroHttpUtil.sendRequest(newVerificationCodeCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
             @Override
             public void onSuccess(BaseResponse<Object> result) {
-                ToastUtil.ToastShortShow("验证码已发送！", MyApp.getGlobalContext());
+                ToastUtil.ToastShortShow("验证码已发送！",MyApp.getGlobalContext());
             }
 
             @Override

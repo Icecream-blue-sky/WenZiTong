@@ -107,13 +107,41 @@ public class LoginActivity extends AppCompatActivity {
         } else if (password.length() == 0) {
             ToastUtil.ToastShortShow("密码为空！",LoginActivity.this);
         } else {
+//            /**
+//             * 登录方法
+//             */
+//            Call<BaseResponse<LoginResponseData>> loginCall = RetroHttpUtil.build().loginCall(MapGenerator.generate().add("email", account).add("password", password));
+//            RetroHttpUtil.sendRequest(loginCall, new AbstractLoginHttpCallback<BaseResponse<LoginResponseData>>() {
+//                @Override
+//                public void onSuccess(BaseResponse<LoginResponseData> result) {
+//                    ToastUtil.ToastShortShow("登录成功！", LoginActivity.this);
+//                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//
+//                @Override
+//                public void onAccountOrPasswordError() {
+//                    ToastUtil.ToastShortShow("账号或密码错误！", LoginActivity.this);
+//                }
+//
+//                @Override
+//                public void onNotRegister() {
+//                    ToastUtil.ToastShortShow("账号未注册！", LoginActivity.this);
+//                }
+//
+//                @Override
+//                public void onFinal() {
+//
+//                }
+//            });
             /**
-             * 登录方法
+             * TODO:新的登录接口
              */
-            Call<BaseResponse<LoginResponseData>> loginCall = RetroHttpUtil.build().loginCall(MapGenerator.generate().add("email", account).add("password", password));
-            RetroHttpUtil.sendRequest(loginCall, new AbstractLoginHttpCallback<BaseResponse<LoginResponseData>>() {
+            Call<BaseResponse<Object>> newLoginCall = RetroHttpUtil.build().newLoginCall(MapGenerator.generate().add("KEYDATA",account+",fh,"+password+",fh,aaaa").add("tm",String.valueOf(System.currentTimeMillis())));
+            RetroHttpUtil.sendRequest(newLoginCall, new AbstractLoginHttpCallback<BaseResponse<Object>>() {
                 @Override
-                public void onSuccess(BaseResponse<LoginResponseData> result) {
+                public void onSuccess(BaseResponse<Object> result) {
                     ToastUtil.ToastShortShow("登录成功！", LoginActivity.this);
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);

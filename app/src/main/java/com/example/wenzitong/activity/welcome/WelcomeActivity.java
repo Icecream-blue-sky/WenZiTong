@@ -10,6 +10,7 @@ import android.view.Window;
 
 import com.example.wenzitong.R;
 import com.example.wenzitong.activity.main.LoginActivity;
+import com.example.wenzitong.activity.main.MainActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -64,7 +65,9 @@ public class WelcomeActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else{
-            Intent intent=new Intent(WelcomeActivity.this, LoginActivity.class);
+            //Intent intent=new Intent(WelcomeActivity.this, LoginActivity.class);
+            //TODO 注册登录测试未完全完成，先跳过
+            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }

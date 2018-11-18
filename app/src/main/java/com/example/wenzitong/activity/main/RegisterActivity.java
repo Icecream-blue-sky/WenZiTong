@@ -18,12 +18,16 @@ import com.example.wenzitong.R;
 import com.example.wenzitong.application.MyApp;
 import com.example.wenzitong.entity.BaseResponse;
 import com.example.wenzitong.untils.EmailCheckUtil;
+import com.example.wenzitong.untils.MD5Util;
 import com.example.wenzitong.untils.MapGenerator;
 import com.example.wenzitong.untils.PasswordCheckUtil;
+import com.example.wenzitong.untils.TimeUtil;
 import com.example.wenzitong.untils.ToastUtil;
 import com.example.wenzitong.untils.retrofitUtil.RetroHttpUtil;
 import com.example.wenzitong.untils.retrofitUtil.callback.AbstractCommonHttpCallback;
 import com.example.wenzitong.untils.retrofitUtil.callback.AbstractRegisterHttpCallback;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -95,11 +99,24 @@ public class RegisterActivity extends AppCompatActivity {
          * TODO:这里接入后端，获取验证码
          * TODO:卧槽，这里是异步获取信息，线程是并行的，可能response还没获取到，你就将信息返回了，这里有潜在的延迟问题
          */
-        Call<BaseResponse<Object>> verificationCodeCall = RetroHttpUtil.build().verificationCodeCall(MapGenerator.generate().add("email", account));
-        RetroHttpUtil.sendRequest(verificationCodeCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
+//        Call<BaseResponse<Object>> verificationCodeCall = RetroHttpUtil.build().verificationCodeCall(MapGenerator.generate().add("email", account));
+//        RetroHttpUtil.sendRequest(verificationCodeCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
+//            @Override
+//            public void onSuccess(BaseResponse<Object> result) {
+//                ToastUtil.ToastShortShow("验证码已发送！", MyApp.getGlobalContext());
+//            }
+//
+//            @Override
+//            public void onFinal() {
+//
+//            }
+//        });
+        //TODO:新接口测试
+        Call<BaseResponse<Object>> newVerificationCodeCall = RetroHttpUtil.build().newVerificationCodeCall(MapGenerator.generate().add("pmail",account));
+        RetroHttpUtil.sendRequest(newVerificationCodeCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
             @Override
             public void onSuccess(BaseResponse<Object> result) {
-                ToastUtil.ToastShortShow("验证码已发送！", MyApp.getGlobalContext());
+                ToastUtil.ToastShortShow("验证码已发送！",MyApp.getGlobalContext());
             }
 
             @Override
@@ -143,11 +160,30 @@ public class RegisterActivity extends AppCompatActivity {
     @OnClick(R.id.register_bt)
     void onClickRegisterBt() {
         if (checkInformation()) {
+//            /**
+//             * 注册网络请求
+//             */
+//            Call<BaseResponse<Object>> registerCall = RetroHttpUtil.build().registerCall(MapGenerator.generate().add("email", account).add("password", password).add("code", verificationCode));
+//            RetroHttpUtil.sendRequest(registerCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
+//                @Override
+//                public void onSuccess(BaseResponse<Object> result) {
+//                    ToastUtil.ToastShortShow("注册成功",RegisterActivity.this);
+//                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+//                    intent.putExtra("account",account).putExtra("password",password);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//
+//                @Override
+//                public void onFinal() {
+//
+//                }
+//            });
             /**
-             * 注册网络请求
+             * TODO:新注册接口测试
              */
-            Call<BaseResponse<Object>> registerCall = RetroHttpUtil.build().registerCall(MapGenerator.generate().add("email", account).add("password", password).add("code", verificationCode));
-            RetroHttpUtil.sendRequest(registerCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
+            Call<BaseResponse<Object>> newRegisterCall = RetroHttpUtil.build().newRegisterCall(MapGenerator.generate().add("USERNAME",account).add("PASSWORD",password).add("NAME","Roger").add("EMAIL",account).add("Rcode",verificationCode).add("FKEY", MD5Util.md5("USERNAME"+ TimeUtil.getCurTime()+",fh,")).add("tm",String.valueOf(System.currentTimeMillis())));
+            RetroHttpUtil.sendRequest(newRegisterCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
                 @Override
                 public void onSuccess(BaseResponse<Object> result) {
                     ToastUtil.ToastShortShow("注册成功",RegisterActivity.this);
